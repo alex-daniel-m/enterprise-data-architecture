@@ -1,91 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archimate:model xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:archimate="http://www.archimatetool.com/archimate" name="enterprise-data-architecture" id="id-50f28afb7fbe47498388c82f5c2dc3dc" version="5.0.0">
   <folder name="Strategy" id="id-859b38f3b114493daf6d56c2310b981a" type="strategy"/>
-  <folder name="Business" id="id-112019290ace4a2b81d84633ceb3745d" type="business"/>
+  <folder name="Business" id="id-112019290ace4a2b81d84633ceb3745d" type="business">
+    <folder name="automation-product-catalog" id="id-29904e79c09043ae80e385231d2bb437"/>
+    <element xsi:type="archimate:BusinessProcess" name="Query primary problem, secondary problem, industry, project type and other. They're categories on database." id="id-43b1b1aa465f457e8efe95726a93eec0"/>
+    <element xsi:type="archimate:BusinessEvent" name="Load product offering file (*.md) on AI agent chat" id="id-0c2b6498ce2940c7bdc9f32dc1af2504"/>
+  </folder>
   <folder name="Application" id="id-0fc7698af2c543c1bd5c0bfa63b0c04c" type="application">
-    <folder name="automation-product-catalog" id="id-f218f850b43942e7a985dcfce71f690c"/>
-    <element xsi:type="archimate:DataObject" name="product_offering" id="id-4c6915ca5be84176bf22678929ec975a" profiles="id-2a30afd55a704932ad6853acf1cb689a">
-      <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
-      <property key="name" value="String @db.VarChar(200)"/>
-      <property key="description" value="String @db.Text"/>
-      <property key="llm_overview" value="String? @db.Text"/>
-      <property key="last_updated" value="DateTime @default(now()) @updatedAt"/>
-      <property key="categories" value="product_offering_category[]"/>
-      <property key="product_specification" value="product_specification?"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="category" id="id-4a90b8dbdfa54cf4a8f7293ca0c4bc4e" profiles="id-2a30afd55a704932ad6853acf1cb689a">
-      <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
-      <property key="name" value="String  @db.VarChar(200)"/>
-      <property key="description" value="String @db.Text"/>
-      <property key="category_type" value="CategoryTypeEnum @default(OTHER)"/>
-      <property key="parent_category_id" value="String? @db.Uuid"/>
-      <property key="parent" value="category? @relation(&quot;CategoryToParent&quot;, fields: [parent_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)"/>
-      <property key="children" value="category[] @relation(&quot;CategoryToParent&quot;)"/>
-      <property key="is_root" value="Boolean @default(false)"/>
-      <property key="is_system" value="Boolean @default(true)"/>
-      <property key="approved" value="Boolean @default(true)"/>
-      <property key="is_active" value="Boolean @default(true)"/>
-      <property key="source" value="SourceTypeEnum @default(SYSTEM)"/>
-      <property key="usage_count" value="BigInt @default(0)"/>
-      <property key="display_order" value="Int @default(0)"/>
-      <property key="created_at" value="DateTime @default(now())"/>
-      <property key="updated_at" value="DateTime @default(now()) @updatedAt"/>
-      <property key="product_offerings" value="product_offering_category[]"/>
-      <property key="uk_name_category_type" value="@@unique([name, category_type], map: &quot;uk_name_category_type&quot;)"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="product_specification" id="id-1a1820cb97f04bc09920ff8df5e03005" profiles="id-2a30afd55a704932ad6853acf1cb689a">
-      <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
-      <property key="product_offering_id" value="String @unique @db.Uuid"/>
-      <property key="product_offering" value="product_offering @relation(fields: [product_offering_id], references: [id], onDelete: Cascade)"/>
-      <property key="name" value="PSNameTypeEnum @default(PRODUCT_OFFERING_SPECIFICATION)"/>
-      <property key="updated_at" value="DateTime @default(now()) @updatedAt"/>
-      <property key="characteristic_specification" value="characteristic_specification[]"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="product_offering_price" id="id-22dc8feeefba461a96fe3cda9292b686" profiles="id-2a30afd55a704932ad6853acf1cb689a">
-      <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
-      <property key="product_offering_id" value="String @db.Uuid"/>
-      <property key="product_offering" value="product_offering @relation(fields: [product_offering_id], references: [id], onDelete: Cascade)"/>
-      <property key="name" value="String @db.VarChar(100)"/>
-      <property key="price_min" value="Int @default(0)"/>
-      <property key="price_max" value="Int @default(0)"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="product_offering_category" id="id-23ce84d504c44d2e8fd79091daa7999e" profiles="id-da0ce2dce1084d86a6374d36756bcf1e">
-      <property key="product_offering_id" value="String @db.Uuid"/>
-      <property key="category_id" value="String @db.Uuid"/>
-      <property key="product_offering" value="product_offering @relation(fields: [product_offering_id], references: [id], onDelete: Cascade)"/>
-      <property key="category" value="category @relation(fields: [category_id], references: [id], onDelete: Cascade)"/>
-      <property key="created_at" value="DateTime @default(now())"/>
-      <property key="pk_product_offering_category" value="@@id([product_offering_id, category_id])"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="characteristic_specification" id="id-3761300257b04712ad0bc834db2cf618" profiles="id-6f2b40d3c8b743e288ae40a33bba56a0">
-      <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
-      <property key="product_specification_id" value="String @db.Uuid"/>
-      <property key="product_specification" value="product_specification @relation(fields: [product_specification_id], references: [id], onDelete: Cascade)"/>
-      <property key="key" value="String @db.VarChar(100)"/>
-      <property key="value" value="String @db.Text"/>
-      <property key="type" value="CSTypeEnum @default(PRODUCT_SPECIFICATION_CHARACTERISTIC)"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="automation_product_catalog_db" id="id-b2815c80c8c64f409d32d71a92da7cda" profiles="id-5f9727fd22d243078e592695c74c5d30"/>
-    <element xsi:type="archimate:DataObject" name="CategoryTypeEnum" id="id-593961a33ba845dd90c0809734173821" profiles="id-03b93deeff504e10984711447da1cde2">
-      <property key="value_1" value="PRIMARY_PROBLEM"/>
-      <property key="value_2" value="SECONDARY_PROBLEM"/>
-      <property key="value_3" value="TOOL"/>
-      <property key="value_4" value="INDUSTRY"/>
-      <property key="value_5" value="PROJECT_TYPE"/>
-      <property key="value_6" value="OTHER"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="SourceTypeEnum" id="id-690e206ae5ec40609752a4add1cacccf" profiles="id-03b93deeff504e10984711447da1cde2">
-      <property key="value_1" value="SYSTEM"/>
-      <property key="value_2" value="LLM"/>
-      <property key="value_3" value="USER"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="PSNameTypeEnum" id="id-63c564f5788a4198a0b06592901b56c0" profiles="id-03b93deeff504e10984711447da1cde2">
-      <property key="value_1" value="PRODUCT_OFFERING_SPECIFICATION"/>
-    </element>
-    <element xsi:type="archimate:DataObject" name="CSTypeEnum" id="id-1a30f14d71384826af3d7cfa5dc88f2d" profiles="id-03b93deeff504e10984711447da1cde2">
-      <property key="value_1" value="PRODUCT_SPECIFICATION_CHARACTERISTIC"/>
-      <property key="value_2" value="PARTY"/>
-    </element>
+    <folder name="automation-product-catalog" id="id-f218f850b43942e7a985dcfce71f690c">
+      <element xsi:type="archimate:DataObject" name="automation_product_catalog_db" id="id-b2815c80c8c64f409d32d71a92da7cda" profiles="id-5f9727fd22d243078e592695c74c5d30"/>
+      <element xsi:type="archimate:DataObject" name="category" id="id-4a90b8dbdfa54cf4a8f7293ca0c4bc4e" profiles="id-2a30afd55a704932ad6853acf1cb689a">
+        <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
+        <property key="name" value="String  @db.VarChar(200)"/>
+        <property key="description" value="String @db.Text"/>
+        <property key="category_type" value="CategoryTypeEnum @default(OTHER)"/>
+        <property key="parent_category_id" value="String? @db.Uuid"/>
+        <property key="parent" value="category? @relation(&quot;CategoryToParent&quot;, fields: [parent_category_id], references: [id], onDelete: NoAction, onUpdate: NoAction)"/>
+        <property key="children" value="category[] @relation(&quot;CategoryToParent&quot;)"/>
+        <property key="is_root" value="Boolean @default(false)"/>
+        <property key="is_system" value="Boolean @default(true)"/>
+        <property key="approved" value="Boolean @default(true)"/>
+        <property key="is_active" value="Boolean @default(true)"/>
+        <property key="source" value="SourceTypeEnum @default(SYSTEM)"/>
+        <property key="usage_count" value="Int @default(0)"/>
+        <property key="display_order" value="Int @default(0)"/>
+        <property key="created_at" value="DateTime @default(now())"/>
+        <property key="updated_at" value="DateTime @default(now()) @updatedAt"/>
+        <property key="product_offerings" value="product_offering_category[]"/>
+        <property key="uk_name_category_type" value="@@unique([name, category_type], map: &quot;uk_name_category_type&quot;)"/>
+        <property key="idx_parent_category_id" value="@@index([parent_category_id])"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="CategoryTypeEnum" id="id-593961a33ba845dd90c0809734173821" profiles="id-03b93deeff504e10984711447da1cde2">
+        <property key="value_1" value="PRIMARY_PROBLEM"/>
+        <property key="value_2" value="SECONDARY_PROBLEM"/>
+        <property key="value_3" value="TOOL"/>
+        <property key="value_4" value="INDUSTRY"/>
+        <property key="value_5" value="PROJECT_TYPE"/>
+        <property key="value_6" value="SOURCE_PLATFORM"/>
+        <property key="value_7" value="OTHER"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="characteristic_specification" id="id-3761300257b04712ad0bc834db2cf618" profiles="id-6f2b40d3c8b743e288ae40a33bba56a0">
+        <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
+        <property key="product_specification_id" value="String @db.Uuid"/>
+        <property key="product_specification" value="product_specification @relation(fields: [product_specification_id], references: [id], onDelete: Cascade)"/>
+        <property key="key" value="String @db.VarChar(100)"/>
+        <property key="value" value="String @db.Text"/>
+        <property key="type" value="CSTypeEnum @default(PRODUCT_SPECIFICATION_CHARACTERISTIC)"/>
+        <property key="uk_product_specification_id_key" value="@@unique([product_specification_id, key]), map: &quot;uk_product_specification_id_key&quot;)"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="CSTypeEnum" id="id-1a30f14d71384826af3d7cfa5dc88f2d" profiles="id-03b93deeff504e10984711447da1cde2">
+        <property key="value_1" value="PRODUCT_SPECIFICATION_CHARACTERISTIC"/>
+        <property key="value_2" value="PARTY"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="product_offering" id="id-4c6915ca5be84176bf22678929ec975a" profiles="id-2a30afd55a704932ad6853acf1cb689a">
+        <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
+        <property key="name" value="String @db.VarChar(200)"/>
+        <property key="description" value="String @db.Text"/>
+        <property key="llm_overview" value="String? @db.Text"/>
+        <property key="last_updated" value="DateTime @default(now()) @updatedAt"/>
+        <property key="categories" value="product_offering_category[]"/>
+        <property key="product_specification" value="product_specification?"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="product_offering_category" id="id-23ce84d504c44d2e8fd79091daa7999e" profiles="id-da0ce2dce1084d86a6374d36756bcf1e">
+        <property key="product_offering_id" value="String @db.Uuid"/>
+        <property key="category_id" value="String @db.Uuid"/>
+        <property key="product_offering" value="product_offering @relation(fields: [product_offering_id], references: [id], onDelete: Cascade)"/>
+        <property key="category" value="category @relation(fields: [category_id], references: [id], onDelete: Cascade)"/>
+        <property key="created_at" value="DateTime @default(now())"/>
+        <property key="pk_product_offering_category" value="@@id([product_offering_id, category_id])"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="product_offering_price" id="id-22dc8feeefba461a96fe3cda9292b686" profiles="id-2a30afd55a704932ad6853acf1cb689a">
+        <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
+        <property key="product_offering_id" value="String @db.Uuid"/>
+        <property key="product_offering" value="product_offering @relation(fields: [product_offering_id], references: [id], onDelete: Cascade)"/>
+        <property key="name" value="String @db.VarChar(100)"/>
+        <property key="price_min" value="BigInt @default(0)"/>
+        <property key="price_max" value="BigInt @default(0)"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="product_specification" id="id-1a1820cb97f04bc09920ff8df5e03005" profiles="id-2a30afd55a704932ad6853acf1cb689a">
+        <property key="id" value="String @id @default(uuid()) @db.Uuid"/>
+        <property key="product_offering_id" value="String @unique @db.Uuid"/>
+        <property key="product_offering" value="product_offering @relation(fields: [product_offering_id], references: [id], onDelete: Cascade)"/>
+        <property key="name" value="PSNameTypeEnum @default(PRODUCT_OFFERING_SPECIFICATION)"/>
+        <property key="updated_at" value="DateTime @default(now()) @updatedAt"/>
+        <property key="characteristic_specification" value="characteristic_specification[]"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="PSNameTypeEnum" id="id-63c564f5788a4198a0b06592901b56c0" profiles="id-03b93deeff504e10984711447da1cde2">
+        <property key="value_1" value="PRODUCT_OFFERING_SPECIFICATION"/>
+      </element>
+      <element xsi:type="archimate:DataObject" name="SourceTypeEnum" id="id-690e206ae5ec40609752a4add1cacccf" profiles="id-03b93deeff504e10984711447da1cde2">
+        <property key="value_1" value="SYSTEM"/>
+        <property key="value_2" value="LLM"/>
+        <property key="value_3" value="USER"/>
+      </element>
+    </folder>
   </folder>
   <folder name="Technology &amp; Physical" id="id-18cf3c8c782a4e3993e7ee1486413874" type="technology"/>
   <folder name="Motivation" id="id-0c982565f0d74db081fc129dfac3f0be" type="motivation"/>
@@ -220,6 +228,14 @@
         <child xsi:type="archimate:Note" id="id-1027c9324f654a3987c64b4c8bfc7197" textAlignment="1">
           <bounds x="36" y="144" width="121" height="25"/>
           <content>Enumerations</content>
+        </child>
+      </element>
+      <element xsi:type="archimate:ArchimateDiagramModel" name="[Flow] Process - automation-product-catalog" id="id-645c95743a9b41878c5e252b2f33e906">
+        <child xsi:type="archimate:DiagramObject" id="id-d90029962a5c47089f0560f7cbfa2ade" archimateElement="id-43b1b1aa465f457e8efe95726a93eec0">
+          <bounds x="180" y="252" width="217" height="85"/>
+        </child>
+        <child xsi:type="archimate:DiagramObject" id="id-2d8b9d3d42be410586d4e96685a83ff5" archimateElement="id-0c2b6498ce2940c7bdc9f32dc1af2504">
+          <bounds x="24" y="96" width="193" height="55"/>
         </child>
       </element>
     </folder>
