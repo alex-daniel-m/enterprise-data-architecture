@@ -124,7 +124,7 @@
     <folder name="automation-product-catalog" id="id-bf94ff2fc092412687019ebe710597cf">
       <element xsi:type="archimate:ArchimateDiagramModel" name="[View] DB  - automation-product-catalog" id="id-c79b3d96a3cd4e88bad9d9758f117ff0">
         <child xsi:type="archimate:DiagramObject" id="id-a8e03d68b2534cc78f62954fe08ce15c" archimateElement="id-b2815c80c8c64f409d32d71a92da7cda">
-          <bounds x="12" y="192" width="985" height="541"/>
+          <bounds x="12" y="168" width="985" height="541"/>
           <sourceConnection xsi:type="archimate:Connection" id="id-28ee838476d047bf95dfd7b891f2f775" source="id-a8e03d68b2534cc78f62954fe08ce15c" target="id-9e7d315cea5649f1b45ad16a48a50b15" archimateRelationship="id-5af33a72cba14d7cba8670aa5c97b798"/>
           <sourceConnection xsi:type="archimate:Connection" id="id-fe4af8c34968472a9bd78a998a479a0e" source="id-a8e03d68b2534cc78f62954fe08ce15c" target="id-c5a8d82116374302b81f3b080e61612f" archimateRelationship="id-fa8bc1d0aaa7467c8b627034acd2c17e"/>
           <sourceConnection xsi:type="archimate:Connection" id="id-ed667eab941b4fe1a2e6bb23d2da8ecd" source="id-a8e03d68b2534cc78f62954fe08ce15c" target="id-c7690eceead24e1997f8ef0174645173" archimateRelationship="id-9de4d6f95bb34a46a291196c579f56f6"/>
@@ -198,35 +198,35 @@
           </child>
         </child>
         <child xsi:type="archimate:Note" id="id-6389d8b4ba7e40aeb5bf8ddd4d1f62e8" lineColor="#57e389" textAlignment="1" fillColor="#57e389">
-          <bounds x="12" y="36" width="49" height="25"/>
+          <bounds x="12" y="12" width="49" height="25"/>
           <feature name="deriveElementLineColor" value="false"/>
         </child>
         <child xsi:type="archimate:Note" id="id-f0888dffd9344e3ebb1e62fc59d65d21" lineColor="#c061cb" textAlignment="1" fillColor="#c061cb">
-          <bounds x="12" y="108" width="49" height="25"/>
+          <bounds x="12" y="84" width="49" height="25"/>
           <feature name="deriveElementLineColor" value="false"/>
         </child>
         <child xsi:type="archimate:Note" id="id-3540fd1e44844e18a5d74bcc1e1882a6" lineColor="#f6d32d" textAlignment="1" fillColor="#f6d32d">
-          <bounds x="12" y="72" width="49" height="25"/>
+          <bounds x="12" y="48" width="49" height="25"/>
           <feature name="deriveElementLineColor" value="false"/>
         </child>
         <child xsi:type="archimate:Note" id="id-9ce419027df843c0876f414d159da659" lineColor="#cdab8f" textAlignment="1" fillColor="#cdab8f">
-          <bounds x="12" y="144" width="49" height="25"/>
+          <bounds x="12" y="120" width="49" height="25"/>
           <feature name="deriveElementLineColor" value="false"/>
         </child>
         <child xsi:type="archimate:Note" id="id-18e0ee70f05b48a5a034640db6640aa6" textAlignment="1">
-          <bounds x="36" y="36" width="121" height="25"/>
+          <bounds x="36" y="12" width="121" height="25"/>
           <content>Main Entity</content>
         </child>
         <child xsi:type="archimate:Note" id="id-96e36c13787040778f171fedac6227ef" textAlignment="1">
-          <bounds x="36" y="72" width="121" height="25"/>
+          <bounds x="36" y="48" width="121" height="25"/>
           <content>Child Entity</content>
         </child>
         <child xsi:type="archimate:Note" id="id-ff8ab18c76464e2dac2331c452e89fd8" textAlignment="1">
-          <bounds x="36" y="108" width="121" height="25"/>
+          <bounds x="36" y="84" width="121" height="25"/>
           <content>Juntion Table</content>
         </child>
         <child xsi:type="archimate:Note" id="id-1027c9324f654a3987c64b4c8bfc7197" textAlignment="1">
-          <bounds x="36" y="144" width="121" height="25"/>
+          <bounds x="36" y="120" width="121" height="25"/>
           <content>Enumerations</content>
         </child>
       </element>
